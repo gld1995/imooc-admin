@@ -1,18 +1,59 @@
 <script setup>
 // 导入组件之后无需注册可直接使用
 import { Avatar } from '@element-plus/icons-vue'
+import { validatePassword } from './rules'
 // import SvgIcon from '@/components/SvgIcon/index'
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 
+const store = useStore()
+
+const passwordType = ref('password')
+const loading = ref(false)
+const formRef = ref(null)
 const loginForm = ref({
-  username: '',
-  password: ''
+  username: 'admin',
+  password: '123456'
 })
+
+const loginRules = ref({
+  username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+  password: [{ required: true, validator: validatePassword(), trigger: 'blur' }]
+})
+
+const onChangePwdType = () => {
+  if (passwordType.value === 'password') {
+    passwordType.value = 'text'
+  } else {
+    passwordType.value = 'password'
+  }
+}
+
+const onSubmit = () => {
+  formRef.value.validate((valid) => {
+    if (!valid) return
+    loading.value = true
+    store
+      .dispatch('user/login', loginForm.value)
+      .then(() => {
+        loading.value = false
+      })
+      .catch((err) => {
+        console.log('err', err)
+        loading.value = false
+      })
+  })
+}
 </script>
 
 <template>
   <div class="login-container">
-    <el-form :model="loginForm" class="login-form">
+    <el-form
+      ref="formRef"
+      :model="loginForm"
+      class="login-form"
+      :rules="loginRules"
+    >
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
@@ -31,14 +72,24 @@ const loginForm = ref({
         <el-input
           v-model="loginForm.password"
           placeholder="password"
-          type="password"
+          :type="passwordType"
           name="password"
-          show-password
         >
           <template #prefix><svg-icon icon="password"></svg-icon> </template>
+          <template #suffix>
+            <svg-icon
+              style="cursor: pointer"
+              :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
+              @click="onChangePwdType"
+            />
+          </template>
         </el-input>
       </el-form-item>
-      <el-button type="primary" style="width: 100%; margin-bottom: 30px"
+      <el-button
+        type="primary"
+        style="width: 100%; margin-bottom: 30px"
+        :loading="loading"
+        @click="onSubmit"
         >登录</el-button
       >
     </el-form>

@@ -6,6 +6,7 @@ import ElementPlus from 'element-plus'
 import installIcon from '@/icons'
 import 'element-plus/dist/index.css'
 import './styles/index.scss'
+import './permissions'
 
 const app = createApp(App)
 installIcon(app)
