@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { generateTitle } from '@/utils/i18n'
 
 const route = useRoute()
 const store = useStore()
@@ -34,7 +35,7 @@ watch(
           index === breadcrumbData.length - 1 ? undefined : { path: route.path }
         "
         :class="{ 'no-redirect': index === breadcrumbData.length - 1 }"
-        >{{ route.meta.title }}</el-breadcrumb-item
+        >{{ generateTitle(route.meta.title)  }}</el-breadcrumb-item
       >
     </transition-group>
   </el-breadcrumb>

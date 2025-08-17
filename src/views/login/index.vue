@@ -5,19 +5,28 @@ import { validatePassword } from './rules'
 // import SvgIcon from '@/components/SvgIcon/index'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import LangSelect from '@/components/LangSelect'
+import { useI18n } from 'vue-i18n'
 
 const store = useStore()
+const i18n = useI18n()
 
 const passwordType = ref('password')
 const loading = ref(false)
 const formRef = ref(null)
 const loginForm = ref({
-  username: 'admin',
+  username: 'super-admin',
   password: '123456'
 })
 
 const loginRules = ref({
-  username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+  username: [
+    {
+      required: true,
+      message: i18n.t('msg.login.usernameRule'),
+      trigger: 'blur'
+    }
+  ],
   password: [{ required: true, validator: validatePassword(), trigger: 'blur' }]
 })
 
@@ -55,9 +64,9 @@ const onSubmit = () => {
       :rules="loginRules"
     >
       <div class="title-container">
-        <h3 class="title">用户登录</h3>
+        <h3 class="title">{{ $t('msg.login.title') }}</h3>
       </div>
-
+      <lang-select effect="light" class="lang-select"></lang-select>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -90,8 +99,9 @@ const onSubmit = () => {
         style="width: 100%; margin-bottom: 30px"
         :loading="loading"
         @click="onSubmit"
-        >登录</el-button
+        >{{ $t('msg.login.loginBtn') }}</el-button
       >
+      <div class="tips" v-html="$t('msg.login.desc')"></div>
     </el-form>
   </div>
 </template>
@@ -115,6 +125,17 @@ $cursor: #fff;
     padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+
+    ::v-deep .lang-select {
+      position: absolute;
+      top: 164px;
+      right: 32px;
+      font-size: 22px;
+      padding: 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #fff;
+    }
 
     ::v-deep .el-form-item {
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -155,6 +176,12 @@ $cursor: #fff;
       text-align: center;
       font-weight: bold;
     }
+  }
+
+  .tips {
+    font-size: 16px;
+    color: white;
+    line-height: 24px;
   }
 }
 </style>
