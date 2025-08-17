@@ -38,6 +38,7 @@ const iconName = computed(() => `#icon-${props.icon}`)
 </template>
 <style scoped lang="scss">
 .svg-icon {
+  min-width: 14px;
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
