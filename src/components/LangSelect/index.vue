@@ -33,7 +33,7 @@ const handleSetLanguage = (lang) => {
   >
     <div>
       <el-tooltip content="国际化" :effect="effect" >
-        <svg-icon icon="language" tabindex="-1"  />
+        <svg-icon id="guide-lang" icon="language" tabindex="-1"  />
       </el-tooltip>
     </div>
     <template #dropdown>

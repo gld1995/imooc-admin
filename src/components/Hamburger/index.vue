@@ -16,7 +16,7 @@ const triggerClick = () => {
 </script>
 <template>
   <div class="hamburger-container" @click="triggerClick">
-    <svg-icon :icon="icon" class="hamburger"></svg-icon>
+    <svg-icon id="guide-hamburger" :icon="icon" class="hamburger"></svg-icon>
   </div>
 </template>
 <style scoped lang="scss">

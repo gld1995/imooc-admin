@@ -4,6 +4,10 @@ import { useStore } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 import Breadcrumb from '@/components/Breadcrumb'
 import LangSelect from '@/components/LangSelect'
+import ThemeSelect from '@/components/ThemeSelect/index'
+import ScreenFull from '@/components/ScreenFull'
+import HeaderSearch from '@/components/HeaderSearch'
+import Guide from '@/components/Guide'
 // import request from '@/utils/request'
 
 const store = useStore()
@@ -40,9 +44,13 @@ const logout = () => {
 <template>
   <div class="navbar">
     <hamburger class="hamburger-container" />
-    <Breadcrumb class="breadcrumb-container" />
+    <breadcrumb id="guide-breadcrumb" class="breadcrumb-container" />
     <div class="right-menu">
-      <lang-select effect='dark' ></lang-select>
+      <guide class="right-menu-item hover-effect" />
+      <header-search class="right-menu-item hover-effect"></header-search>
+      <screen-full class="right-menu-item hover-effect"></screen-full>
+      <theme-select class="right-menu-item hover-effect"></theme-select>
+      <lang-select class="right-menu-item hover-effect"></lang-select>
       <!-- 头像 -->
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
@@ -100,6 +108,23 @@ const logout = () => {
     align-items: center;
     float: right;
     padding-right: 16px;
+
+    ::v-deep .right-menu-item {
+      display: inline-block;
+      padding: 0 18px 0 0;
+      font-size: 24px;
+      color: #5a5e66;
+      vertical-align: text-bottom;
+
+      &.hover-effect {
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.025);
+        }
+      }
+    }
 
     ::v-deep .avatar-container {
       cursor: pointer;
