@@ -18,6 +18,8 @@ service.interceptors.request.use((config) => {
 
     config.headers.Authorization = `Bearer ${store.getters.token}`
   }
+  // 配置接口国际化
+  config.headers['Accept-Language'] = store.getters.language
   return config
 }, error => Promise.reject(error))
 

@@ -1,5 +1,6 @@
 import { getItem, setItem } from '../../utils/storage'
 import { LANG, TAGS_VIEW } from '../../constant'
+// import { watchSwitchLang } from '@/utils/i18n'
 
 export default {
   namespaced: true,
