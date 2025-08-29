@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onActivated } from 'vue'
+import { ref, onActivated, watch } from 'vue'
 import { getUserManageList, deleteUser } from '@/api/user-manage'
 import { watchSwitchLang } from '@/utils/i18n'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ExportToExcel from './components/Export2Excel.vue'
+import RolesDialog from './components/roles.vue'
 
 const router = useRouter()
 const i18n = useI18n()
@@ -15,6 +16,9 @@ const tableData = ref([])
 const total = ref(0)
 const page = ref(1)
 const size = ref(2)
+const roleDialogVisible = ref(false)
+const selectUserId = ref('')
+
 // 获取数据的方法
 const getListData = async () => {
   const result = await getUserManageList({
@@ -67,6 +71,14 @@ const onToExcelClick = () => {
   exportToExcelVisible.value = true
 }
 
+const onShowRoleClick = (id) => {
+  selectUserId.value = id
+  console.log('row._id', id)
+  roleDialogVisible.value = true
+}
+
+watch(roleDialogVisible, (val) => !val && (selectUserId.value = ''))
+
 onActivated(getListData)
 </script>
 
@@ -74,7 +86,7 @@ onActivated(getListData)
   <div class="user-manage-container">
     <el-card class="header">
       <div>
-        <el-button type="primary" @click="onImportExcelClick">
+        <el-button v-permission="['importUser']" type="primary" @click="onImportExcelClick">
           {{ $t('msg.excel.importExcel') }}</el-button
         >
         <el-button type="success" @click="onToExcelClick">
@@ -124,10 +136,10 @@ onActivated(getListData)
             <el-button type="primary" size="mini" @click="onShow(row._id)">{{
               $t('msg.excel.show')
             }}</el-button>
-            <el-button type="info" size="mini">{{
+            <el-button v-permission="['distributeRole']" type="info" size="mini" @click="onShowRoleClick(row._id)">{{
               $t('msg.excel.showRole')
             }}</el-button>
-            <el-button type="danger" size="mini" @click="onRemove(row)">{{
+            <el-button v-permission="['removeUser']" type="danger" size="mini" @click="onRemove(row)">{{
               $t('msg.excel.remove')
             }}</el-button>
           </template>
@@ -147,6 +159,11 @@ onActivated(getListData)
       </el-pagination>
     </el-card>
     <export-to-excel v-model="exportToExcelVisible"></export-to-excel>
+    <roles-dialog
+      v-model="roleDialogVisible"
+      :userId="selectUserId"
+      @updateRole="getListData"
+    ></roles-dialog>
   </div>
 </template>
 
