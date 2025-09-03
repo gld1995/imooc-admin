@@ -74,7 +74,9 @@ const getStyleTemplate = data => {
     '#b3d8ff': 'light-6',
     '#c6e2ff': 'light-7',
     '#d9ecff': 'light-8',
-    '#ecf5ff': 'light-9'
+    '#ecf5ff': 'light-9',
+    'rgb(121,187,255)': 'light-3',
+    'rgb(51,126,204)': 'primary'
   }
   // 根据默认色值为要替换的色值打上标记
   Object.keys(colorMap).forEach(key => {

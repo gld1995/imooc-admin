@@ -70,11 +70,11 @@ watch(visible, (val) => {
         @contextmenu.prevent="openMenu($event, index)"
       >
         {{ tag.title }}
-        <i
+        <svg-icon
           v-show="!isActive(tag)"
-          class="el-icon-close"
+          icon="close"
           @click.prevent.stop="onCloseClick(index)"
-        />
+        ></svg-icon>
       </router-link>
     </el-scrollbar>
     <context-menu
